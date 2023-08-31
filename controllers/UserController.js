@@ -63,13 +63,13 @@ export const getMe = async (req, res) => {
 	try {
 		const user = await UserModel.findById(req.userId)
 		if (!user) {
-			res.status(400).json({ message: 'Отказано в доступе' })
+			return res.status(400).json({ message: 'Отказано в доступе' })
 		}
 
 		const { passwordHash, ...userData } = user._doc
 		res.status(200).json(userData)
 	} catch (error) {
 		console.log(error)
-		res.status(401).json({ message: 'Нед доступа' })
+		res.status(401).json({ message: 'Нет доступа' })
 	}
 }

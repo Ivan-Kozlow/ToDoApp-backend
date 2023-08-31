@@ -9,11 +9,12 @@ import CheckAuth from './utils/CheckAuth.js'
 mongoose
 	.connect('mongodb+srv://admin:rootroot@tododb.ztwhx3o.mongodb.net/ToDoDB?retryWrites=true&w=majority')
 	.then(() => console.log('DB ok'))
-	.catch(() => console.log('Error to connect DB'))
+	.catch((err) => console.log('Error to connect DB', err))
 
 const app = express()
 app.use(express.json())
 app.use(cors())
+// app.use('/uploads', express.static('uploads'))
 
 // TODO add search on todo (for body || title, for date)
 // TODO add avatar logic
@@ -33,4 +34,4 @@ app.post('/todo/create', CheckAuth, todoCreateValidation, TodoController.create)
 app.patch('/todo/:id', CheckAuth, todoCreateValidation, TodoController.update)
 app.delete('/todo/:id', CheckAuth, TodoController.remove)
 
-app.listen(4444, (err) => err && console.log(err))
+app.listen(4000, (err) => err && console.log(err))
