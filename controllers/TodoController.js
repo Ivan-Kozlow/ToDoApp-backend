@@ -13,7 +13,6 @@ export const create = async (req, res) => {
 			body: req.body.body,
 			title: req.body.title,
 			completed: req.completed || 0,
-			// date: new Date().getTime(),
 		})
 
 		const todo = await doc.save()
@@ -77,7 +76,6 @@ export const update = async (req, res) => {
 				title: req.body.title,
 				body: req.body.body,
 				completed: req.body.completed || 0,
-				// date: new Date().getTime(),
 			}
 		)
 		res.json({ message: 'Success' })

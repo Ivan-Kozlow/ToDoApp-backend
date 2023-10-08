@@ -11,12 +11,12 @@ export const login = async (req, res) => {
 		}
 		let user = await UserModel.findOne({ email: req.body.email })
 		if (!user) {
-			return res.status(404).json({ message: 'Неверный логин или пароль' })
+			return res.status(401).json({ message: 'Неверный логин или пароль' })
 		}
 
 		const isValidPassword = await bcrypt.compare(req.body.password, user._doc.passwordHash)
 		if (!isValidPassword) {
-			return res.status(404).json({ message: 'Неверный логин или пароль' })
+			return res.status(401).json({ message: 'Неверный логин или пароль' })
 		}
 
 		// successful login
@@ -45,7 +45,7 @@ export const register = async (req, res) => {
 			nickname: req.body.nickname,
 			email: req.body.email,
 			passwordHash: hash,
-			// avatarUrl: req.body.avatar,
+			avatar: req?.file?.filename || '',
 		})
 
 		const user = await doc.save()
@@ -65,11 +65,41 @@ export const getMe = async (req, res) => {
 		if (!user) {
 			return res.status(400).json({ message: 'Отказано в доступе' })
 		}
-
 		const { passwordHash, ...userData } = user._doc
 		res.status(200).json(userData)
 	} catch (error) {
 		console.log(error)
 		res.status(401).json({ message: 'Нет доступа' })
+	}
+}
+
+export const updateSome = async (req, res) => {
+	if (!Object.keys(req.body).length) return res.status(404).json('Server not get info')
+	const errors = validationResult(req)
+	if (!errors.isEmpty()) return res.status(400).json(errors.array())
+
+	try {
+		const userId = req.params.id
+
+		let hash
+		if (req.body.password) {
+			let password = req.body.password
+			let salt = await bcrypt.genSalt(10)
+			hash = await bcrypt.hash(password, salt)
+		}
+		const avatarName = req.file?.filename || ''
+		await UserModel.updateOne(
+			{ _id: userId },
+			{
+				email: req.body.email,
+				nickname: req.body.nickname,
+				passwordHash: hash,
+				avatar: avatarName,
+			}
+		)
+		res.json('uploads/' + avatarName)
+	} catch (error) {
+		console.log(error)
+		res.status(400).json({ message: 'Не удалось обновить данные' })
 	}
 }
