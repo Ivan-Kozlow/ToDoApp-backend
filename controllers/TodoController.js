@@ -52,7 +52,7 @@ export const remove = async (req, res) => {
 			if (!doc) {
 				return res.status(400).json({ message: 'Не удалось найти заметку' })
 			}
-			res.status(200).json({ message: 'Success' })
+			res.status(200).json({ message: 'Успешно' })
 		})
 	} catch (err) {
 		console.log(err)
@@ -61,7 +61,7 @@ export const remove = async (req, res) => {
 }
 
 export const update = async (req, res) => {
-	if (!Object.keys(req.body).length) return res.status(404).json('Server not get info')
+	if (!Object.keys(req.body).length) return res.status(404).json('Сервер не получил данные, проверьте их корректность')
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) {
 		return res.status(400).json(errors.array())
@@ -78,7 +78,7 @@ export const update = async (req, res) => {
 				completed: req.body.completed || 0,
 			}
 		)
-		res.json({ message: 'Success' })
+		res.json({ message: 'Успешно' })
 	} catch (err) {
 		console.log(err)
 		res.status(400).json({ message: 'Не удалось получить заметку' })

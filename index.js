@@ -3,7 +3,13 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 
 import { TodoController, UserController } from './controllers/index.js'
-import { loginValidation, registerValidation, todoCreateValidation, updateUserValidation } from './validation.js'
+import {
+	loginValidation,
+	registerValidation,
+	todoCreateValidation,
+	updateUserValidation,
+	todoUpdateValidation,
+} from './validation.js'
 import CheckAuth from './utils/CheckAuth.js'
 import { upload } from './controllers/filesController.js'
 
@@ -31,7 +37,7 @@ app.patch('/user/:id', CheckAuth, upload.single('avatar'), updateUserValidation,
 app.get('/:userId', CheckAuth, TodoController.getAll)
 app.get('/todo/:id', CheckAuth, TodoController.getOne)
 app.post('/todo/create', CheckAuth, todoCreateValidation, TodoController.create)
-app.patch('/todo/:id', CheckAuth, todoCreateValidation, TodoController.update)
+app.patch('/todo/:id', CheckAuth, todoUpdateValidation, TodoController.update)
 app.delete('/todo/:id', CheckAuth, TodoController.remove)
 
 app.listen(4000, (err) => err && console.log(err))
