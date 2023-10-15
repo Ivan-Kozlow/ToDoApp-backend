@@ -28,6 +28,6 @@ export const todoCreateValidation = [
 ]
 export const todoUpdateValidation = [
 	body('title', 'Слишком короткий заголовок').optional().isString().isLength({ min: 3 }),
-	body('body', 'Введите текст заметки').optional().isString().isLength({ min: 2 }),
+	body('body', 'Введите текст заметки').optional({ checkFalsy: true }).isString().isLength({ min: 2 }),
 	body('completed', 'Неверные значения прогресса').optional({ checkFalsy: true }).isInt({ min: 0, max: 2 }),
 ]
