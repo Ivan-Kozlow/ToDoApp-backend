@@ -23,11 +23,11 @@ export const updateUserValidation = [
 // =============== Todo ==============
 export const todoCreateValidation = [
 	body('title', 'Слишком короткий заголовок').isString().isLength({ min: 3 }),
-	body('body', 'Введите текст заметки').optional({ checkFalsy: true }).isString().isLength({ min: 2 }),
+	body('body', 'Введите текст заметки').optional({ checkFalsy: true }).isString(),
 	body('completed', 'Неверные значения прогресса').optional({ checkFalsy: true }).isInt({ min: 0, max: 2 }),
 ]
 export const todoUpdateValidation = [
-	body('title', 'Слишком короткий заголовок').optional().isString().isLength({ min: 3 }),
-	body('body', 'Введите текст заметки').optional({ checkFalsy: true }).isString().isLength({ min: 2 }),
+	body('title', 'Слишком короткий заголовок').optional({ checkFalsy: true }).isString().isLength({ min: 3 }),
+	body('body', 'Введите текст заметки').optional({ checkFalsy: true }).isString(),
 	body('completed', 'Неверные значения прогресса').optional({ checkFalsy: true }).isInt({ min: 0, max: 2 }),
 ]
