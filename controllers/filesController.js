@@ -5,6 +5,7 @@ import fs from 'fs'
 const storage = multer.diskStorage({
 	// Path file`s
 	destination: (_, file, cb) => {
+		if (!(file.mimetype.slice(0, 6) === 'image/')) cb('Not image')
 		if (!fs.existsSync('uploads')) {
 			fs.mkdirSync('uploads')
 		}

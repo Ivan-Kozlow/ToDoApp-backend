@@ -74,7 +74,8 @@ export const getMe = async (req, res) => {
 }
 
 export const updateSome = async (req, res) => {
-	if (!Object.keys(req.body).length) return res.status(404).json('Сервер не получил данные, проверьте их корректность')
+	if (!Object.keys(req.body).length && !req.file?.filename)
+		return res.status(400).json('Сервер не получил данные, проверьте их корректность')
 	const errors = validationResult(req)
 	if (!errors.isEmpty()) return res.status(400).json(errors.array())
 
