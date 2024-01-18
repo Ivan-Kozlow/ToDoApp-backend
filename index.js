@@ -23,10 +23,6 @@ app.use(cors())
 app.use(express.json())
 app.use('/uploads', express.static('uploads'))
 
-// TODO add calendar` and date logic
-// TODO через библиотеку js-cookies передавать id пользователей и id todo, и сверять пользователя и принадлежность todo именно ему
-// А то заполучив todoId другого пользователя его можно удалить (теоретически)
-
 // Authenticate
 app.get('/auth/me', CheckAuth, UserController.getMe)
 app.post('/auth/login', loginValidation, UserController.login)
