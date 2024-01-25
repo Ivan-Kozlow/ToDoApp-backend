@@ -2,6 +2,7 @@ import { validationResult } from 'express-validator'
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import UserModel from '../models/User.js'
+import fs from 'fs'
 
 export const login = async (req, res) => {
 	try {
@@ -89,6 +90,7 @@ export const updateSome = async (req, res) => {
 			hash = await bcrypt.hash(password, salt)
 		}
 		const avatarName = req.file?.filename || ''
+		!avatarName.length && fs.rmSync(`./uploads/${req.body.avatar}`)
 		await UserModel.updateOne(
 			{ _id: userId },
 			{
